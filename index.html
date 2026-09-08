@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=2560, user-scalable=yes, minimum-scale=0.15, maximum-scale=6">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CRM Blue">
+<meta name="theme-color" content="#1E2235">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
 <title>NorthVector CRM — Lead Pipeline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,6 +67,11 @@
 
   /* ── LAYOUT SHELL ── */
   .app { display: flex; height: 100vh; flex-direction: column; }
+  /* On a phone held upright, the fixed 2560px layout width makes 100vh compute
+     far taller than the design — cap it so panels don't stretch into blank space. */
+  @media (orientation: portrait) {
+    .app { height: 1280px; }
+  }
 
   .topbar {
     height: var(--header-h); background: var(--bg-surface);
@@ -282,11 +295,12 @@
   .history-preview { font-size: 10.5px; color: var(--text-muted); margin-top: 1px; }
   .history-date { font-size: 9.5px; color: var(--text-muted); margin-left: auto; flex-shrink: 0; }
 
-  /* ── DIALER FOOTER ── */
+  /* ── DIALER BANNER (bottom of Communications panel only) ── */
   .dialer-footer {
     height: var(--dialer-h); background: var(--bg-dialer); flex-shrink: 0;
     border-top: 1px solid rgba(255,255,255,.07); display: flex;
-    align-items: center; padding: 0 20px; gap: 0;
+    align-items: center; padding: 0 16px; gap: 0; width: 100%;
+    overflow-x: auto; overflow-y: hidden;
     transition: box-shadow .3s;
   }
   .dialer-footer.call-active {
@@ -417,6 +431,12 @@
     </div>
     <div class="topbar-right">
       <span class="topbar-meta">Pipeline · <strong>Q3 2026</strong></span>
+      <button class="topbar-btn" title="Refresh" onclick="location.reload()">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+      </button>
       <button class="topbar-btn" title="Notifications">
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
@@ -639,118 +659,117 @@
           </div>
         </div>
       </div>
+      <!-- ── DIALER BANNER (docked to bottom of this panel) ── -->
+      <div class="dialer-footer" id="dialerFooter">
+
+        <!-- Connectivity badges -->
+        <div class="dialer-section">
+          <div class="conn-badges">
+            <div class="conn-badge connected" id="btBadge" onclick="toggleBT()">
+              <div class="conn-badge-dot"></div>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"/></svg>
+              <span class="conn-badge-text">Bluetooth · Bose QC45</span>
+            </div>
+            <div class="conn-badge connected" id="wifiBadge" onclick="toggleWifi()">
+              <div class="conn-badge-dot"></div>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+              <span class="conn-badge-text">Wi-Fi Call · Corp-5G</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call display -->
+        <div class="dialer-section">
+          <div class="dialer-display">
+            <div class="dialer-contact" id="dialerContact">Sandra Reeves</div>
+            <div class="dialer-number" id="dialerNumber">+1 (415) 882-4401</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+              <span class="dialer-status idle" id="dialerStatus">Ready</span>
+              <span class="dialer-timer" id="dialerTimer" style="display:none">00:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dial input -->
+        <div class="dialer-section">
+          <div class="dialer-input-row">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4A5070" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <input class="dialer-input" id="dialInput" placeholder="Enter number…" type="tel" oninput="syncDialerDisplay()">
+          </div>
+        </div>
+
+        <!-- Keypad -->
+        <div class="dialer-section">
+          <div class="dialer-keypad">
+            <button class="key-btn" onclick="dialKey('1')">1</button>
+            <button class="key-btn" onclick="dialKey('2')">2</button>
+            <button class="key-btn" onclick="dialKey('3')">3</button>
+            <button class="key-btn special" onclick="dialKey('*')">✱</button>
+            <button class="key-btn" onclick="dialKey('4')">4</button>
+            <button class="key-btn" onclick="dialKey('5')">5</button>
+            <button class="key-btn" onclick="dialKey('6')">6</button>
+            <button class="key-btn" onclick="dialKey('0')">0</button>
+            <button class="key-btn" onclick="dialKey('7')">7</button>
+            <button class="key-btn" onclick="dialKey('8')">8</button>
+            <button class="key-btn" onclick="dialKey('9')">9</button>
+            <button class="key-btn special" onclick="dialKey('#')">#</button>
+          </div>
+        </div>
+
+        <!-- Call controls -->
+        <div class="dialer-section">
+          <button class="dial-ctrl-btn" id="muteBtn" onclick="toggleMute()">
+            <div class="dial-icon">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </div>
+            <span class="dial-ctrl-label">Mute</span>
+          </button>
+          <button class="dial-ctrl-btn" id="holdBtn" onclick="toggleHold()">
+            <div class="dial-icon">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </div>
+            <span class="dial-ctrl-label">Hold</span>
+          </button>
+          <button class="dial-ctrl-btn" id="speakerBtn" onclick="toggleSpeaker()">
+            <div class="dial-icon">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </div>
+            <span class="dial-ctrl-label">Speaker</span>
+          </button>
+          <button class="dial-ctrl-btn" onclick="transferCall()">
+            <div class="dial-icon">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </div>
+            <span class="dial-ctrl-label">Transfer</span>
+          </button>
+          <button class="dial-ctrl-btn" onclick="addMergeCall()">
+            <div class="dial-icon">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/><line x1="20" y1="8" x2="20" y2="14"/></svg>
+            </div>
+            <span class="dial-ctrl-label">Add/Merge</span>
+          </button>
+          <button class="dial-ctrl-btn" id="deviceBtn" onclick="switchDevice()">
+            <div class="dial-icon">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </div>
+            <span class="dial-ctrl-label">Device</span>
+          </button>
+        </div>
+
+        <!-- Answer / End -->
+        <div class="dialer-section" style="gap:10px;">
+          <button class="dial-answer-btn" id="answerBtn" onclick="initiateCall()" title="Answer / Call">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </button>
+          <button class="dial-end-btn" id="endBtn" onclick="endCall()" title="End Call">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" transform="rotate(135 12 12)"/></svg>
+          </button>
+        </div>
+
+      </div>
     </aside>
 
   </div><!-- /body-area -->
-
-  <!-- ── DIALER FOOTER ── -->
-  <footer class="dialer-footer" id="dialerFooter">
-
-    <!-- Connectivity badges -->
-    <div class="dialer-section">
-      <div class="conn-badges">
-        <div class="conn-badge connected" id="btBadge" onclick="toggleBT()">
-          <div class="conn-badge-dot"></div>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"/></svg>
-          <span class="conn-badge-text">Bluetooth · Bose QC45</span>
-        </div>
-        <div class="conn-badge connected" id="wifiBadge" onclick="toggleWifi()">
-          <div class="conn-badge-dot"></div>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
-          <span class="conn-badge-text">Wi-Fi Call · Corp-5G</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Call display -->
-    <div class="dialer-section">
-      <div class="dialer-display">
-        <div class="dialer-contact" id="dialerContact">Sandra Reeves</div>
-        <div class="dialer-number" id="dialerNumber">+1 (415) 882-4401</div>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
-          <span class="dialer-status idle" id="dialerStatus">Ready</span>
-          <span class="dialer-timer" id="dialerTimer" style="display:none">00:00</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dial input -->
-    <div class="dialer-section">
-      <div class="dialer-input-row">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4A5070" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        <input class="dialer-input" id="dialInput" placeholder="Enter number…" type="tel" oninput="syncDialerDisplay()">
-      </div>
-    </div>
-
-    <!-- Keypad -->
-    <div class="dialer-section">
-      <div class="dialer-keypad">
-        <button class="key-btn" onclick="dialKey('1')">1</button>
-        <button class="key-btn" onclick="dialKey('2')">2</button>
-        <button class="key-btn" onclick="dialKey('3')">3</button>
-        <button class="key-btn special" onclick="dialKey('*')">✱</button>
-        <button class="key-btn" onclick="dialKey('4')">4</button>
-        <button class="key-btn" onclick="dialKey('5')">5</button>
-        <button class="key-btn" onclick="dialKey('6')">6</button>
-        <button class="key-btn" onclick="dialKey('0')">0</button>
-        <button class="key-btn" onclick="dialKey('7')">7</button>
-        <button class="key-btn" onclick="dialKey('8')">8</button>
-        <button class="key-btn" onclick="dialKey('9')">9</button>
-        <button class="key-btn special" onclick="dialKey('#')">#</button>
-      </div>
-    </div>
-
-    <!-- Call controls -->
-    <div class="dialer-section">
-      <button class="dial-ctrl-btn" id="muteBtn" onclick="toggleMute()">
-        <div class="dial-icon">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        </div>
-        <span class="dial-ctrl-label">Mute</span>
-      </button>
-      <button class="dial-ctrl-btn" id="holdBtn" onclick="toggleHold()">
-        <div class="dial-icon">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-        </div>
-        <span class="dial-ctrl-label">Hold</span>
-      </button>
-      <button class="dial-ctrl-btn" id="speakerBtn" onclick="toggleSpeaker()">
-        <div class="dial-icon">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        </div>
-        <span class="dial-ctrl-label">Speaker</span>
-      </button>
-      <button class="dial-ctrl-btn" onclick="transferCall()">
-        <div class="dial-icon">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        </div>
-        <span class="dial-ctrl-label">Transfer</span>
-      </button>
-      <button class="dial-ctrl-btn" onclick="addMergeCall()">
-        <div class="dial-icon">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/><line x1="20" y1="8" x2="20" y2="14"/></svg>
-        </div>
-        <span class="dial-ctrl-label">Add/Merge</span>
-      </button>
-      <button class="dial-ctrl-btn" id="deviceBtn" onclick="switchDevice()">
-        <div class="dial-icon">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-        </div>
-        <span class="dial-ctrl-label">Device</span>
-      </button>
-    </div>
-
-    <!-- Answer / End -->
-    <div class="dialer-section" style="gap:10px;">
-      <button class="dial-answer-btn" id="answerBtn" onclick="initiateCall()" title="Answer / Call">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      </button>
-      <button class="dial-end-btn" id="endBtn" onclick="endCall()" title="End Call">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" transform="rotate(135 12 12)"/></svg>
-      </button>
-    </div>
-
-  </footer>
 
 </div><!-- /app -->
 
