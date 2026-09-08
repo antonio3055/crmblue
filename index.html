@@ -163,10 +163,10 @@
   /* ── THREE-PANEL WORKSPACE ── */
   .lead-list-panel {
     width: var(--lead-list-w); flex-shrink: 0; display: flex; flex-direction: column;
-    overflow: hidden; border-right: 1px solid var(--border); background: var(--bg-surface);
+    min-height: 0; overflow: hidden; border-right: 1px solid var(--border); background: var(--bg-surface);
   }
   .selected-lead-panel, .comms-panel {
-    flex: 1 1 0; min-width: 0; display: flex; flex-direction: column;
+    flex: 1 1 0; min-width: 0; min-height: 0; display: flex; flex-direction: column;
     overflow: hidden; background: var(--bg-surface);
   }
   .selected-lead-panel { border-right: 1px solid var(--border); }
@@ -189,7 +189,7 @@
   .toolbar-divider { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
 
   /* Lead list */
-  .lead-list-scroll { flex: 1; overflow-y: auto; }
+  .lead-list-scroll { flex: 1; min-height: 0; overflow-y: auto; }
   .lead-row {
     display: flex; align-items: center; gap: 10px; padding: 10px 16px;
     border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s;
@@ -209,18 +209,6 @@
   .lead-name { font-size: 12.5px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .lead-company { font-size: 10.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  .stage-pill {
-    display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px;
-    font-size: 10.5px; font-weight: 600; white-space: nowrap;
-  }
-  .stage-pill.discovery    { background: #EEF2FF; color: #4B5CB8; }
-  .stage-pill.proposal     { background: #FDF3E5; color: #C97B2A; }
-  .stage-pill.negotiation  { background: #FDE8E8; color: #B83A3A; }
-  .stage-pill.qualified    { background: #E5F6F3; color: #1A8F7A; }
-  .stage-pill.closed-won   { background: #E5F6F3; color: #147A64; }
-  .stage-pill.closed-lost  { background: #F3F4F7; color: #8C93AB; }
-  .stage-pill.prospecting  { background: #EEF2FF; color: #6B4EBC; }
-
   /* ── SELECTED LEAD / COMMS PANELS ── */
   .rp-header {
     padding: 16px 16px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0;
@@ -232,6 +220,8 @@
   }
   .rp-name { font-size: 13.5px; font-weight: 700; color: var(--text-primary); }
   .rp-company { font-size: 11.5px; color: var(--text-secondary); margin-top: 1px; }
+  .rp-revenue { color: var(--accent-teal); font-weight: 600; }
+  .rp-title { font-size: 10.5px; color: var(--text-muted); margin-top: 1px; }
   .rp-actions { display: flex; gap: 6px; margin-top: 2px; }
   .rp-action-btn {
     flex: 1; padding: 6px 0; border-radius: 6px; border: 1px solid var(--border);
@@ -244,7 +234,7 @@
   .rp-action-btn.call:hover { background: #158570; }
   .rp-action-btn:hover:not(.call) { border-color: var(--accent-blue); color: var(--accent-blue); background: var(--accent-blue-light); }
 
-  .rp-body { flex: 1; overflow-y: auto; padding: 0 0 12px; }
+  .rp-body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 0 12px; }
   .rp-section { padding: 12px 16px; border-bottom: 1px solid var(--border); }
   .rp-section:last-child { border-bottom: none; }
   .rp-section-title {
@@ -258,7 +248,7 @@
   .info-val { font-size: 11.5px; color: var(--text-primary); font-weight: 500; word-break: break-word; }
   .info-val a { color: var(--accent-blue); text-decoration: none; }
   .info-val a:hover { text-decoration: underline; }
-  .info-val.mono { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; }
+  .info-val.mono, .mono { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; }
 
   .fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .fin-card { background: var(--bg-panel); border-radius: 7px; padding: 9px 10px; }
@@ -266,6 +256,72 @@
   .fin-card-val { font-size: 13px; font-weight: 700; color: var(--text-primary); letter-spacing: -.3px; }
   .fin-card-val.green { color: var(--accent-teal); }
   .fin-card-val.amber { color: var(--accent-amber); }
+
+  /* Contact lines (mobile / landline / email rows with action icons) */
+  .contact-group-label { font-size: 9.5px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin: 10px 0 4px; }
+  .contact-group-label:first-child { margin-top: 0; }
+  .contact-line { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); gap: 8px; }
+  .contact-line:last-child { border-bottom: none; }
+  .contact-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .contact-icons { display: flex; gap: 5px; flex-shrink: 0; }
+  .icon-btn {
+    width: 21px; height: 21px; border-radius: 5px; display: flex; align-items: center; justify-content: center;
+    background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-secondary);
+    cursor: pointer; transition: all .12s; flex-shrink: 0;
+  }
+  .icon-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); background: var(--accent-blue-light); }
+  .icon-btn.wa:hover { border-color: var(--accent-teal); color: var(--accent-teal); background: var(--accent-teal-light); }
+
+  /* MCA */
+  .mca-item { background: var(--bg-panel); border-radius: 7px; padding: 9px 10px; margin-bottom: 7px; }
+  .mca-item:last-child { margin-bottom: 0; }
+  .mca-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .mca-name { font-size: 11.5px; font-weight: 600; color: var(--text-primary); }
+  .mca-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; padding: 2px 6px; border-radius: 4px; }
+  .mca-badge.active { background: var(--accent-teal-light); color: var(--accent-teal); }
+  .mca-badge.review { background: var(--accent-amber-light); color: var(--accent-amber); }
+
+  /* Sales pitch */
+  .pitch-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 10px 11px; font-size: 11.5px; line-height: 1.55; color: var(--text-primary); }
+
+  /* Scanned files */
+  .file-chip { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s; }
+  .file-chip:last-child { border-bottom: none; }
+  .file-chip:hover .file-chip-name { color: var(--accent-blue); }
+  .file-chip-icon { width: 24px; height: 24px; border-radius: 6px; background: var(--accent-blue-light); color: var(--accent-blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .file-chip-name { font-size: 11.5px; font-weight: 500; color: var(--text-primary); transition: color .1s; }
+
+  /* Document viewer overlay */
+  .doc-overlay {
+    position: fixed; inset: 0; background: rgba(20,22,36,.55); z-index: 500;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .doc-overlay.hidden { display: none; }
+  .doc-modal {
+    width: 620px; height: 720px; background: #2A2E42; border-radius: 10px; overflow: hidden;
+    display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,.4);
+  }
+  .doc-toolbar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #232739; border-bottom: 1px solid rgba(255,255,255,.08); flex-shrink: 0; }
+  .doc-title { font-size: 12px; font-weight: 600; color: #E8EAF2; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .doc-select {
+    background: #303555; border: 1px solid rgba(255,255,255,.1); color: #E8EAF2; font-size: 10.5px;
+    border-radius: 5px; padding: 4px 6px; font-family: inherit;
+  }
+  .doc-btn {
+    width: 26px; height: 26px; border-radius: 5px; background: #303555; border: 1px solid rgba(255,255,255,.1);
+    color: #C8CCDC; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .12s; flex-shrink: 0;
+  }
+  .doc-btn:hover { background: #3B4066; }
+  .doc-page-indicator { font-size: 10.5px; color: #8090C0; font-family: 'JetBrains Mono', monospace; min-width: 44px; text-align: center; }
+  .doc-canvas-wrap { flex: 1; min-height: 0; overflow: auto; display: flex; align-items: flex-start; justify-content: center; padding: 24px; background: #1C1F30; }
+  .doc-page {
+    width: 460px; height: 595px; background: #fff; border-radius: 3px; flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35); transition: transform .15s;
+    display: flex; flex-direction: column; padding: 30px 28px; color: #333;
+  }
+  .doc-page-header { font-size: 10px; letter-spacing: .5px; text-transform: uppercase; color: #999; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 12px; }
+  .doc-page-lines div { height: 7px; background: #E8E8EC; border-radius: 3px; margin-bottom: 9px; }
+  .doc-page-footer { margin-top: auto; font-size: 9.5px; color: #aaa; }
 
   .notes-textarea {
     width: 100%; border: 1px solid var(--border); border-radius: 7px;
@@ -526,7 +582,8 @@
           <div class="rp-avatar" id="rpAvatar" style="background:#3B6FD4;color:#fff">SR</div>
           <div>
             <div class="rp-name" id="rpName">Sandra Reeves</div>
-            <div class="rp-company" id="rpCompany">Apex Dynamics · VP Engineering</div>
+            <div class="rp-company"><span id="rpCompany">Apex Dynamics</span><span class="rp-revenue" id="rpRevenue"></span></div>
+            <div class="rp-title" id="rpTitle"></div>
           </div>
         </div>
         <div class="rp-actions">
@@ -546,50 +603,15 @@
       </div>
 
       <div class="rp-body">
-        <!-- Contact Info -->
-        <div class="rp-section">
-          <div class="rp-section-title">Contact Info <a>Edit</a></div>
-          <div class="info-row"><span class="info-label">Phone</span><span class="info-val"><a href="#">+1 (415) 882-4401</a></span></div>
-          <div class="info-row"><span class="info-label">Mobile</span><span class="info-val"><a href="#">+1 (415) 309-7723</a></span></div>
-          <div class="info-row"><span class="info-label">Email</span><span class="info-val"><a href="#">s.reeves@apexdyn.com</a></span></div>
-          <div class="info-row"><span class="info-label">LinkedIn</span><span class="info-val"><a href="#">linkedin.com/in/sandrar</a></span></div>
-          <div class="info-row"><span class="info-label">Location</span><span class="info-val">San Francisco, CA</span></div>
-          <div class="info-row"><span class="info-label">Timezone</span><span class="info-val">PST · 2:41 PM local</span></div>
-        </div>
-
-        <!-- Financials -->
-        <div class="rp-section">
-          <div class="rp-section-title">Deal Financials</div>
-          <div class="fin-grid">
-            <div class="fin-card">
-              <div class="fin-card-label">Deal Value</div>
-              <div class="fin-card-val">$240,000</div>
-            </div>
-            <div class="fin-card">
-              <div class="fin-card-label">Probability</div>
-              <div class="fin-card-val green">68%</div>
-            </div>
-            <div class="fin-card">
-              <div class="fin-card-label">Weighted</div>
-              <div class="fin-card-val amber">$163.2K</div>
-            </div>
-            <div class="fin-card">
-              <div class="fin-card-label">Close Date</div>
-              <div class="fin-card-val" style="font-size:11.5px">Sep 30, 2026</div>
-            </div>
-          </div>
-          <div style="margin-top:8px;">
-            <div class="info-row"><span class="info-label">Contract</span><span class="info-val">Annual · SaaS</span></div>
-            <div class="info-row"><span class="info-label">ARR</span><span class="info-val">$240K</span></div>
-            <div class="info-row"><span class="info-label">Seats</span><span class="info-val">120 users</span></div>
-          </div>
-        </div>
+        <div id="rpDynamicTop"></div>
 
         <!-- Notes -->
         <div class="rp-section">
           <div class="rp-section-title">Notes <a>Save</a></div>
           <textarea class="notes-textarea" rows="4" placeholder="Add a note…">Interested in enterprise tier. Mentioned rollout timeline pressure — wants contract signed before Q4 budget freeze. Follow up on security questionnaire.</textarea>
         </div>
+
+        <div id="rpLastActivity"></div>
       </div>
     </section>
 
@@ -771,6 +793,33 @@
 
   </div><!-- /body-area -->
 
+  <!-- ── DOCUMENT VIEWER OVERLAY ── -->
+  <div class="doc-overlay hidden" id="docOverlay">
+    <div class="doc-modal">
+      <div class="doc-toolbar">
+        <select class="doc-select" id="docSelect" onchange="docSwitch(this.value)"></select>
+        <span class="doc-title" id="docTitle"></span>
+        <button class="doc-btn" title="Zoom out" onclick="docZoom(-1)">−</button>
+        <button class="doc-btn" title="Zoom in" onclick="docZoom(1)">+</button>
+        <button class="doc-btn" title="Fit width" onclick="docFit()">⤢</button>
+        <button class="doc-btn" title="Rotate" onclick="docRotate()">⟳</button>
+        <button class="doc-btn" title="Close" onclick="closeDocViewer()">✕</button>
+      </div>
+      <div class="doc-canvas-wrap" id="docCanvasWrap">
+        <div class="doc-page" id="docPage">
+          <div class="doc-page-header" id="docPageHeader"></div>
+          <div class="doc-page-lines" id="docPageLines"></div>
+          <div class="doc-page-footer" id="docPageFooter"></div>
+        </div>
+      </div>
+      <div class="doc-toolbar" style="justify-content:center; gap:16px;">
+        <button class="doc-btn" title="Previous page" onclick="docPage(-1)">‹</button>
+        <span class="doc-page-indicator" id="docPageIndicator"></span>
+        <button class="doc-btn" title="Next page" onclick="docPage(1)">›</button>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /app -->
 
 <script>
@@ -789,6 +838,438 @@ const leads = [
   { id:11,initials:'OB', color:'#4B5CB8', name:'Olivia Brooks',    company:'ClearPath Fin.',   title:'VP Finance',         stage:'closed-lost',  value:98000,  score:22, priority:'low',    owner:'AR', action:'Re-engage Q1',      date:'—',      phone:'+1 (312) 558-7712', email:'o.brooks@clearpath.com' },
   { id:12,initials:'RG', color:'#1A8F7A', name:'Rafael Gomez',     company:'Horizon Cloud',    title:'CISO',               stage:'negotiation',  value:330000, score:85, priority:'high',   owner:'TK', action:'Security review',   date:'Sep 28', phone:'+1 (512) 882-4100', email:'r.gomez@horizoncloud.io' },
 ];
+
+// ── CRM DATA ENRICHMENT (Company / Financials / Bank / MCA mock data) ──
+const BANKS = ['Chase Bank','Wells Fargo','Bank of America','PNC Bank','Truist Bank','U.S. Bank','Citizens Bank','Regions Bank','Fifth Third Bank','KeyBank','M&T Bank','Huntington Bank'];
+const MCA_LENDERS = ['Fundbox','OnDeck Capital','Rapid Finance','Credibly','National Funding','Kalamata Capital Group','Fora Financial','Forward Financing','Reliant Funding','Expansion Capital Group'];
+const INDUSTRIES = ['Software / SaaS','Financial Services','Logistics & Freight','Manufacturing','Healthcare Services','Professional Services','Construction','Retail / E-commerce','Food & Beverage','Technology Consulting','Transportation','Business Services'];
+const EXPENSE_CATS = [
+  {cat:'Payroll', cadence:'Bi-weekly'},
+  {cat:'Commercial Rent', cadence:'Monthly'},
+  {cat:'Equipment Lease', cadence:'Monthly'},
+  {cat:'Supplier / Inventory Payments', cadence:'Weekly'},
+  {cat:'Fleet Fuel & Maintenance', cadence:'Weekly'},
+  {cat:'Insurance Premiums', cadence:'Monthly'},
+  {cat:'Subcontractor Payments', cadence:'Bi-weekly'},
+];
+const GEO_BY_AREA = {
+  '415':{city:'San Francisco', state:'CA', street:'Market St', zip:'94103'},
+  '212':{city:'New York', state:'NY', street:'5th Ave', zip:'10016'},
+  '312':{city:'Chicago', state:'IL', street:'LaSalle St', zip:'60603'},
+  '503':{city:'Portland', state:'OR', street:'Burnside St', zip:'97209'},
+  '408':{city:'San Jose', state:'CA', street:'1st St', zip:'95113'},
+  '646':{city:'New York', state:'NY', street:'Broadway', zip:'10012'},
+  '617':{city:'Boston', state:'MA', street:'Boylston St', zip:'02116'},
+  '214':{city:'Dallas', state:'TX', street:'Elm St', zip:'75201'},
+  '720':{city:'Denver', state:'CO', street:'Wynkoop St', zip:'80202'},
+  '512':{city:'Austin', state:'TX', street:'Congress Ave', zip:'78701'},
+};
+const NOTE_TEMPLATES = [
+  d => `Reviewed the latest statement — MCA burden looks manageable, ready to present an offer.`,
+  d => `Requested the most recent bank statement from the applicant; received and logged.`,
+  d => `Applicant confirmed funding is earmarked for ${d.exp.cat.toLowerCase()} coverage during a slow month.`,
+  d => `Left a voicemail following up on the application; awaiting callback.`,
+];
+const ACTIVITY_TEMPLATES = [
+  {type:'Call', text:'Outbound call — discussed funding timeline and next steps'},
+  {type:'Email', text:'Sent updated offer summary and requested documents'},
+  {type:'Scanner Update', text:'Latest bank statement processed and extracted'},
+  {type:'SMS', text:'Text follow-up sent after a missed call'},
+];
+const ICONS = {
+  call: `<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+  sms: `<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+  wa: `<svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.14-1.5a9.86 9.86 0 0 0 4.9 1.3h.01c5.46 0 9.9-4.45 9.9-9.9C21.96 6.45 17.5 2 12.04 2zm5.8 14.13c-.24.68-1.4 1.3-1.93 1.36-.5.06-1.02.08-1.65-.1-.38-.11-.87-.28-1.5-.55-2.64-1.14-4.36-3.8-4.5-3.98-.13-.18-1.08-1.44-1.08-2.75 0-1.3.68-1.94.92-2.2.24-.27.53-.33.7-.33.18 0 .35 0 .5.01.16.01.38-.06.6.46.24.56.8 1.94.87 2.08.07.14.11.3.02.48-.09.18-.14.29-.27.45-.14.16-.29.35-.41.47-.14.14-.28.29-.12.56.16.28.71 1.17 1.53 1.9 1.05.93 1.93 1.22 2.21 1.36.28.14.44.11.6-.07.16-.18.68-.79.87-1.06.18-.27.36-.22.6-.13.24.09 1.55.73 1.82.86.27.13.44.2.51.31.07.11.07.65-.17 1.33z"/></svg>`,
+  email: `<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+  doc: `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+};
+
+function seeded(seed) {
+  let s = (seed * 9301 + 49297) % 233280;
+  return function() { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+}
+function pick(arr, i) { return arr[((i % arr.length) + arr.length) % arr.length]; }
+function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function moneyShort(n) {
+  const sign = n < 0 ? '-' : '';
+  n = Math.abs(n);
+  if (n >= 1000000) return sign + '$' + (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M';
+  if (n >= 1000) return sign + '$' + Math.round(n/1000) + 'K';
+  return sign + '$' + Math.round(n);
+}
+function fmtPhone(area, rnd) {
+  const p1 = 200 + Math.floor(rnd()*700);
+  const p2 = String(1000 + Math.floor(rnd()*8999)).slice(0,4);
+  return `+1 (${area}) ${p1}-${p2}`;
+}
+function repName(owner) { return owner === 'MW' ? 'Marcus Webb' : owner === 'TK' ? 'Tara Kim' : 'Aaron Reyes'; }
+
+function buildPitchVariant(lead, d, variant) {
+  if (variant === 1) {
+    return `Hi, following up on ${lead.company}'s funding request — you're averaging ${moneyShort(d.avgMonthlyDeposits)}/mo in deposits${d.mcaCount>0?', and we can likely beat your current MCA payment':''}. Got two minutes?`;
+  }
+  if (variant === 2) {
+    return `${lead.company}: ${moneyShort(d.avgMonthlyDeposits)}/mo avg deposits, ${d.mcaCount>0?`${money(d.totalMcaBurden)}/mo in existing MCA payments`:'no active MCA'}. Offer near ${money(d.currentApproval)}. ${d.mcaCount>0?'Consolidate and lower the daily payment.':'Growth capital, no added payment pressure.'}`;
+  }
+  const trendTxt = d.depositTrendUp ? 'a rising deposit trend' : 'a softening deposit trend';
+  const mcaTxt = d.mcaCount > 0
+    ? `Carrying ${money(d.totalMcaBurden)}/mo in existing MCA payments across ${d.mcaCount} position${d.mcaCount>1?'s':''}, which is compressing daily cash flow.`
+    : 'No active MCA positions detected, which leaves clean room for new financing.';
+  const angle = d.mcaCount > 0 ? 'position it as payment relief — consolidate and lower the effective daily payment' : 'position it as growth capital with no added daily payment pressure';
+  return `${lead.company} is averaging ${moneyShort(d.avgMonthlyDeposits)}/mo in deposits with ${trendTxt}. ${mcaTxt} ${d.exp.cat} is the largest recurring outflow at roughly ${money(d.expenseAmount)}/${d.exp.cadence.toLowerCase()}. An offer near ${money(d.currentApproval)} would ${angle} — a practical opener for the call.`;
+}
+
+function enrichLead(lead) {
+  const rnd = seeded(lead.id * 104729 + 17);
+  const areaMatch = lead.phone.match(/\((\d{3})\)/);
+  const area = areaMatch ? areaMatch[1] : '312';
+  const geo = GEO_BY_AREA[area] || {city:'Chicago', state:'IL', street:'Wacker Dr', zip:'60601'};
+  const industry = pick(INDUSTRIES, lead.id + 2);
+  const streetNum = 100 + Math.floor(rnd()*8800);
+  const suite = 100 + Math.floor(rnd()*350);
+  const companyAddress = `${streetNum} ${geo.street}, Suite ${suite}, ${geo.city}, ${geo.state} ${geo.zip}`;
+
+  const firstName = lead.name.split(' ')[0];
+  const domain = lead.email.split('@')[1];
+  const mobiles = [lead.phone, fmtPhone(area, rnd), fmtPhone(area, rnd)];
+  const landlines = [fmtPhone(area, rnd), fmtPhone(area, rnd)];
+  const emails = [lead.email, `${firstName.toLowerCase()}@${domain}`, `billing@${domain}`];
+
+  const dobY = 1965 + Math.floor(rnd()*30);
+  const dob = `${String(1+Math.floor(rnd()*12)).padStart(2,'0')}/${String(1+Math.floor(rnd()*28)).padStart(2,'0')}/${dobY}`;
+  const bizYears = 2 + Math.floor(rnd()*18);
+  const bizStartYear = 2026 - bizYears;
+  const businessStart = `${String(1+Math.floor(rnd()*12)).padStart(2,'0')}/${bizStartYear}`;
+  const timeInBusiness = `${bizYears} yrs`;
+  const ein = `${10+Math.floor(rnd()*89)}-${1000000+Math.floor(rnd()*8999999)}`;
+  const ssn = `${100+Math.floor(rnd()*899)}-${10+Math.floor(rnd()*89)}-${1000+Math.floor(rnd()*8999)}`;
+
+  const annualRevenue = Math.round(lead.value * (3.4 + rnd()*2.2) / 1000) * 1000;
+  const avgMonthlyDeposits = Math.round(annualRevenue/12/500)*500;
+  const requestedFunding = Math.round(lead.value/1000)*1000;
+  const currentApproval = Math.round(requestedFunding * (0.65+rnd()*0.3) / 1000)*1000;
+  const bank = pick(BANKS, lead.id + 3);
+  const accountNumber = String(1000000000 + Math.floor(rnd()*8999999999)).slice(0,10);
+
+  const depositTrendUp = rnd() > 0.35;
+  const balanceTrendUp = rnd() > 0.4;
+
+  const stmt1Deposits = Math.round(avgMonthlyDeposits * (0.94 + rnd()*0.16));
+  const stmt2Deposits = Math.round(avgMonthlyDeposits * (0.88 + rnd()*0.18));
+  const stmt1Balance = Math.round(avgMonthlyDeposits * (0.32 + rnd()*0.45));
+  const stmt2Balance = Math.round(avgMonthlyDeposits * (0.28 + rnd()*0.45));
+
+  const mtdDeposits = Math.round(avgMonthlyDeposits * (8/30) * (0.85+rnd()*0.3));
+  const mtdBalance = Math.round(avgMonthlyDeposits * (0.35+rnd()*0.4));
+
+  const avgDailyInflow = Math.round(avgMonthlyDeposits/30);
+  const avgDailyOutflow = Math.round(avgDailyInflow * (0.72+rnd()*0.38));
+  const netDaily = avgDailyInflow - avgDailyOutflow;
+
+  const exp = pick(EXPENSE_CATS, lead.id + 1);
+  const expenseAmount = Math.round(avgMonthlyDeposits * (0.08+rnd()*0.12));
+
+  const mcaCount = lead.id % 4 === 0 ? 0 : (lead.id % 3 === 0 ? 2 : 1);
+  const mca = [];
+  for (let i=0;i<mcaCount;i++) {
+    const lender = pick(MCA_LENDERS, lead.id*5 + i*3);
+    const cadence = (lead.id+i) % 2 === 0 ? 'Daily' : 'Weekly';
+    let paymentAmount, monthlyBurden;
+    if (cadence === 'Daily') {
+      paymentAmount = Math.round(avgDailyInflow * (0.07+rnd()*0.08));
+      monthlyBurden = Math.round(paymentAmount * 21);
+    } else {
+      paymentAmount = Math.round(avgMonthlyDeposits * 0.05 * (0.8+rnd()*0.4));
+      monthlyBurden = Math.round(paymentAmount * 4.3);
+    }
+    mca.push({
+      lender, cadence, paymentAmount, monthlyBurden,
+      pattern: cadence === 'Daily' ? 'Recurring weekday ACH debit' : 'Recurring weekly ACH debit',
+      status: rnd() > 0.25 ? 'Active' : 'Needs Review',
+    });
+  }
+  const totalMcaBurden = mca.reduce((s,m)=>s+m.monthlyBurden,0);
+  const nsfCount = rnd() > 0.65 ? 1 + Math.floor(rnd()*2) : 0;
+  const seasonal = rnd() > 0.5 ? pick(['Higher deposits in Q4','Slower deposits in Q1','Summer seasonal uptick'], lead.id) : null;
+  const unusual = rnd() > 0.72 ? 'One large unusual deposit outside the normal pattern' : null;
+
+  const files = [
+    {label:'Application', pages:3},
+    {label:'Most Recent Statement', pages:6},
+    {label:'Previous Statement', pages:5},
+  ];
+  if (lead.id % 2 === 0) files.push({label:'Third Statement', pages:5});
+  if (lead.id % 3 === 0) files.push({label:'MTD Statement', pages:3});
+
+  const pitchData = {avgMonthlyDeposits, depositTrendUp, mcaCount, totalMcaBurden, exp, expenseAmount, currentApproval};
+  const notes = [0,1].map(i => ({
+    author: repName(lead.owner),
+    time: i === 0 ? '2 days ago' : '6 days ago',
+    text: pick(NOTE_TEMPLATES, lead.id + i)({exp}),
+  }));
+  const act = pick(ACTIVITY_TEMPLATES, lead.id);
+  const lastActivity = { type: act.type, text: act.text, time: 'Today · 11:20 AM', rep: repName(lead.owner) };
+
+  return {
+    industry, companyAddress,
+    mobiles, landlines, emails,
+    dob, businessStart, timeInBusiness, ein, ssn,
+    annualRevenue, avgMonthlyDeposits, requestedFunding, currentApproval,
+    bank, accountNumber, depositTrendUp, balanceTrendUp,
+    statements: [
+      {month:'August 2026', deposits:stmt1Deposits, balance:stmt1Balance},
+      {month:'July 2026', deposits:stmt2Deposits, balance:stmt2Balance},
+    ],
+    mtd: {deposits:mtdDeposits, balance:mtdBalance, asOf:'Sep 8, 2026'},
+    cashFlow: {avgDailyInflow, avgDailyOutflow, netDaily},
+    expense: {category:exp.cat, cadence:exp.cadence, amount:expenseAmount},
+    mca, totalMcaBurden, nsfCount, seasonal, unusual, netDaily,
+    files, notes, lastActivity,
+    pitchData, pitchVariant: 0,
+    pitch: buildPitchVariant(lead, pitchData, 0),
+  };
+}
+
+// ── PANEL 2 RENDER ──
+function row(label, val) {
+  return `<div class="info-row"><span class="info-label">${label}</span><span class="info-val">${val}</span></div>`;
+}
+function section(title, inner, action) {
+  return `<div class="rp-section"><div class="rp-section-title">${title}${action?` <a onclick="${action.fn}">${action.label}</a>`:''}</div>${inner}</div>`;
+}
+function activityIconMeta(type) {
+  const map = {
+    Call:           {bg:'#E5F6F3', color:'#1A8F7A', icon:ICONS.call},
+    Email:          {bg:'#EEF2FF', color:'#4B5CB8', icon:ICONS.email},
+    SMS:            {bg:'#FDF3E5', color:'#C97B2A', icon:ICONS.sms},
+    'Scanner Update':{bg:'#F3F4F7', color:'#8C93AB', icon:ICONS.doc},
+  };
+  return map[type] || map['Scanner Update'];
+}
+
+function renderWorkspace(lead) {
+  const c = lead.crm;
+  let html = '';
+
+  html += section('Company Information', `
+    ${row('Legal Name', lead.company)}
+    ${row('DBA', lead.company)}
+    ${row('Owner / Applicant', lead.name)}
+    ${row('Industry', c.industry)}
+    ${row('Company Address', c.companyAddress)}
+    ${row('Business Start', c.businessStart)}
+    ${row('Time in Business', c.timeInBusiness)}
+    ${row('Annual Revenue', money(c.annualRevenue))}
+    ${row('Requested Funding', money(c.requestedFunding))}
+    ${row('Current Approval', money(c.currentApproval))}
+    ${row('Assigned Rep', repName(lead.owner))}
+    ${row('Source', 'Online Application')}
+  `);
+
+  const mobileRows = c.mobiles.map(n => `
+    <div class="contact-line">
+      <span class="contact-num">${n}</span>
+      <span class="contact-icons">
+        <span class="icon-btn" title="Call" onclick="callNumber('${n}')">${ICONS.call}</span>
+        <span class="icon-btn" title="SMS">${ICONS.sms}</span>
+        <span class="icon-btn wa" title="WhatsApp">${ICONS.wa}</span>
+      </span>
+    </div>`).join('');
+  const landlineRows = c.landlines.map(n => `
+    <div class="contact-line">
+      <span class="contact-num">${n}</span>
+      <span class="contact-icons">
+        <span class="icon-btn" title="Call" onclick="callNumber('${n}')">${ICONS.call}</span>
+      </span>
+    </div>`).join('');
+  const emailRows = c.emails.map(e => `
+    <div class="contact-line">
+      <span class="contact-num" style="font-family:'Inter',sans-serif;">${e}</span>
+      <span class="contact-icons">
+        <span class="icon-btn" title="Email">${ICONS.email}</span>
+      </span>
+    </div>`).join('');
+
+  html += section('Contact Information', `
+    ${row('Full Name', lead.name)}
+    ${row('Role / Title', lead.title)}
+    ${row('Statement Address', c.companyAddress)}
+    ${row('DOB', c.dob)}
+    ${row('EIN', c.ein)}
+    ${row('SSN', c.ssn)}
+    <div class="contact-group-label">Mobile</div>
+    ${mobileRows}
+    <div class="contact-group-label">Landline</div>
+    ${landlineRows}
+    <div class="contact-group-label">Email</div>
+    ${emailRows}
+  `);
+
+  html += section('Financials', `
+    <div class="fin-grid">
+      <div class="fin-card"><div class="fin-card-label">Avg Monthly Deposits</div><div class="fin-card-val">${moneyShort(c.avgMonthlyDeposits)}</div></div>
+      <div class="fin-card"><div class="fin-card-label">Daily Cash Flow</div><div class="fin-card-val ${c.netDaily>=0?'green':'amber'}">${c.netDaily>=0?'+':''}${moneyShort(c.netDaily)}</div></div>
+      <div class="fin-card"><div class="fin-card-label">Requested Funding</div><div class="fin-card-val">${moneyShort(c.requestedFunding)}</div></div>
+      <div class="fin-card"><div class="fin-card-label">Current Approval</div><div class="fin-card-val green">${moneyShort(c.currentApproval)}</div></div>
+    </div>
+    <div style="margin-top:8px;">
+      ${row('Bank', c.bank)}
+      ${row('Account Number', `<span class="mono">${c.accountNumber}</span>`)}
+      ${row('Deposit Trend', c.depositTrendUp ? '↑ Trending up' : '↓ Trending down')}
+      ${row('Balance Trend', c.balanceTrendUp ? '↑ Trending up' : '↓ Trending down')}
+    </div>
+  `);
+
+  html += section('Bank Statements', c.statements.map(s => row(s.month, `${money(s.deposits)} deposits · ${money(s.balance)} ending`)).join(''));
+
+  html += section('MTD', `
+    ${row('MTD Deposits', money(c.mtd.deposits))}
+    ${row('MTD Balance', money(c.mtd.balance))}
+    ${row('As of', c.mtd.asOf)}
+  `);
+
+  html += section('Daily Cash Flow', `
+    ${row('Avg Daily Inflow', money(c.cashFlow.avgDailyInflow))}
+    ${row('Avg Daily Outflow', money(c.cashFlow.avgDailyOutflow))}
+    ${row('Net Daily Cash Flow', `${c.cashFlow.netDaily>=0?'+':''}${money(c.cashFlow.netDaily)}`)}
+  `);
+
+  html += section('Largest Expense / Cash-Flow Pressure', `
+    ${row('Category', c.expense.category)}
+    ${row('Amount', money(c.expense.amount))}
+    ${row('Cadence', c.expense.cadence)}
+    <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;line-height:1.5;">${c.expense.category} is the largest recurring outflow, landing ${c.expense.cadence.toLowerCase()} and shaping the cash-flow cycle.</div>
+  `);
+
+  if (c.mca.length) {
+    html += section('MCA', c.mca.map(m => `
+      <div class="mca-item">
+        <div class="mca-top">
+          <span class="mca-name">${m.lender}</span>
+          <span class="mca-badge ${m.status==='Active'?'active':'review'}">${m.status}</span>
+        </div>
+        ${row('Payment', `${money(m.paymentAmount)} · ${m.cadence}`)}
+        ${row('Monthly Burden', money(m.monthlyBurden))}
+        ${row('Pattern', m.pattern)}
+      </div>
+    `).join(''));
+  } else {
+    html += section('MCA', `<div style="font-size:11px;color:var(--text-muted);">No active MCA positions detected.</div>`);
+  }
+
+  html += section('Financial Summary', `
+    ${row('Deposit Consistency', c.depositTrendUp ? 'Consistent, trending up' : 'Some month-to-month variability')}
+    ${row('Deposit Growth', c.depositTrendUp ? 'Growing vs. prior month' : 'Declining vs. prior month')}
+    ${row('Ending Balance Trend', c.balanceTrendUp ? 'Trending up' : 'Trending down')}
+    ${row('Daily Cash Flow', c.netDaily>=0 ? 'Net positive' : 'Net negative — under pressure')}
+    ${row('Largest Expense Pressure', c.expense.category)}
+    ${row('MCA Burden', c.mca.length ? `${money(c.totalMcaBurden)}/mo across ${c.mca.length}` : 'None detected')}
+    ${row('NSF / Overdraft Activity', c.nsfCount ? `${c.nsfCount} event(s) in latest statement` : 'None in latest statement')}
+    ${c.seasonal ? row('Seasonal Pattern', c.seasonal) : ''}
+    ${c.unusual ? row('Unusual Withdrawals', c.unusual) : ''}
+    ${row('Working-Capital Pressure', (c.netDaily<0 || c.mca.length>1) ? 'Elevated' : 'Moderate')}
+  `);
+
+  html += section('Finance-Based Sales Pitch', `<div class="pitch-box" id="pitchBox">${c.pitch}</div>`, {fn:`regeneratePitch(${lead.id})`, label:'Regenerate'});
+
+  html += section('Scanned Files', c.files.map((f,i) => `
+    <div class="file-chip" onclick="openDocViewer(${lead.id}, ${i})">
+      <div class="file-chip-icon">${ICONS.doc}</div>
+      <div class="file-chip-name">${f.label}</div>
+    </div>
+  `).join(''));
+
+  document.getElementById('rpDynamicTop').innerHTML = html;
+
+  const am = activityIconMeta(c.lastActivity.type);
+  document.getElementById('rpLastActivity').innerHTML = `
+    <div class="rp-section">
+      <div class="rp-section-title">Last Activity <a onclick="alert('Full activity history would open here.')">View Activity History</a></div>
+      <div class="activity-item">
+        <div class="activity-icon" style="background:${am.bg}">${am.icon.replace('currentColor', am.color)}</div>
+        <div>
+          <div class="activity-text">${c.lastActivity.text}</div>
+          <div class="activity-time">${c.lastActivity.time} · ${c.lastActivity.rep}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function callNumber(num) {
+  const lead = leads.find(l => l.id === selectedLeadId);
+  document.getElementById('dialerContact').textContent = lead ? lead.name : '';
+  document.getElementById('dialerNumber').textContent = num;
+  document.getElementById('dialInput').value = '';
+  initiateCall();
+}
+
+function regeneratePitch(leadId) {
+  const lead = leads.find(l => l.id === leadId);
+  if (!lead || leadId !== selectedLeadId) return;
+  const c = lead.crm;
+  c.pitchVariant = (c.pitchVariant + 1) % 3;
+  c.pitch = buildPitchVariant(lead, c.pitchData, c.pitchVariant);
+  const box = document.getElementById('pitchBox');
+  if (box) box.textContent = c.pitch;
+}
+
+// ── DOCUMENT VIEWER (overlay — never resizes the workspace) ──
+let docState = {leadId:null, fileIndex:0, page:1, zoom:120, rotation:0};
+function openDocViewer(leadId, fileIndex) {
+  const lead = leads.find(l => l.id === leadId);
+  if (!lead) return;
+  docState = {leadId, fileIndex, page:1, zoom:120, rotation:0};
+  const sel = document.getElementById('docSelect');
+  sel.innerHTML = lead.crm.files.map((f,i) => `<option value="${i}">${f.label}</option>`).join('');
+  sel.value = fileIndex;
+  renderDocPage();
+  document.getElementById('docOverlay').classList.remove('hidden');
+}
+function docSwitch(idxStr) {
+  docState.fileIndex = parseInt(idxStr, 10);
+  docState.page = 1;
+  renderDocPage();
+}
+function docPage(delta) {
+  const lead = leads.find(l => l.id === docState.leadId);
+  if (!lead) return;
+  const file = lead.crm.files[docState.fileIndex];
+  docState.page = Math.max(1, Math.min(file.pages, docState.page + delta));
+  renderDocPage();
+}
+function docZoom(delta) {
+  docState.zoom = Math.max(50, Math.min(200, docState.zoom + delta*10));
+  applyDocTransform();
+}
+function docFit() {
+  docState.zoom = 120;
+  docState.rotation = 0;
+  applyDocTransform();
+}
+function docRotate() {
+  docState.rotation = (docState.rotation + 90) % 360;
+  applyDocTransform();
+}
+function applyDocTransform() {
+  document.getElementById('docPage').style.transform = `scale(${docState.zoom/100}) rotate(${docState.rotation}deg)`;
+}
+function renderDocPage() {
+  const lead = leads.find(l => l.id === docState.leadId);
+  if (!lead) return;
+  const file = lead.crm.files[docState.fileIndex];
+  document.getElementById('docTitle').textContent = `${lead.company} — ${file.label}`;
+  document.getElementById('docPageIndicator').textContent = `${docState.page} of ${file.pages}`;
+  document.getElementById('docPageHeader').textContent = `${file.label} · Page ${docState.page}`;
+  const lineCount = 10 + (docState.page % 3) * 2;
+  document.getElementById('docPageLines').innerHTML = Array.from({length:lineCount}).map((_,i) =>
+    `<div style="width:${60+((i*13)%38)}%"></div>`).join('');
+  document.getElementById('docPageFooter').textContent = `${lead.company} · Mock document preview — not connected to a real source file`;
+  applyDocTransform();
+}
+function closeDocViewer() {
+  document.getElementById('docOverlay').classList.add('hidden');
+}
 
 let selectedLeadId = 1;
 let callActive = false;
@@ -810,7 +1291,6 @@ function renderLeads(data) {
       <div class="lead-row-main">
         <div class="lead-row-top">
           <span class="lead-name">${l.name}</span>
-          <span class="stage-pill ${l.stage}">${stageLabel(l.stage)}</span>
         </div>
         <div class="lead-row-sub">
           <span class="lead-company">${l.company}</span>
@@ -823,10 +1303,6 @@ function renderLeads(data) {
   });
 }
 
-function stageLabel(s) {
-  const map = { discovery:'Discovery', proposal:'Proposal', negotiation:'Negotiation', qualified:'Qualified', 'closed-won':'Closed Won', 'closed-lost':'Closed Lost', prospecting:'Prospecting' };
-  return map[s] || s;
-}
 function selectLead(id) {
   selectedLeadId = id;
   const lead = leads.find(l => l.id === id);
@@ -841,7 +1317,10 @@ function selectLead(id) {
   document.getElementById('rpAvatar').style.background = lead.color;
   document.getElementById('rpAvatar').textContent = lead.initials;
   document.getElementById('rpName').textContent = lead.name;
-  document.getElementById('rpCompany').textContent = `${lead.company} · ${lead.title}`;
+  document.getElementById('rpCompany').textContent = lead.company;
+  document.getElementById('rpRevenue').textContent = ` · ${moneyShort(lead.crm.annualRevenue)}/yr revenue`;
+  document.getElementById('rpTitle').textContent = lead.title;
+  renderWorkspace(lead);
 
   // Update dialer display
   document.getElementById('dialerContact').textContent = lead.name;
@@ -968,7 +1447,9 @@ function filterLeads() {
 function showNewLeadDialog() { alert('New Lead form would open here.'); }
 
 // ── INIT ──
+leads.forEach(l => { l.crm = enrichLead(l); });
 renderLeads(leads);
+selectLead(selectedLeadId);
 </script>
 </body>
 </html>
