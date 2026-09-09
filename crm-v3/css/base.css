@@ -1,0 +1,30 @@
+/* ============================================================
+   base.css — reset, page typography, scrollbars.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+button, input, select, textarea { font-family: inherit; }
+a { color: var(--accent-blue); text-decoration: none; cursor: pointer; }
+a:hover { text-decoration: underline; }
+svg { display: block; flex-shrink: 0; }
+ul, ol { list-style: none; }
+
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-thumb { background: #D3D8E4; border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}

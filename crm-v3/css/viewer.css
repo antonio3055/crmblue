@@ -1,0 +1,71 @@
+/* ============================================================
+   viewer.css — full-screen document viewer.
+   One page at a time, floating free on a dimmed backdrop with
+   no frame, card or toolbar. Every control size comes from
+   --doc-ui, measured from the stage, so the floating controls
+   stay the same physical size on a phone as on a monitor.
+   Closing is by clicking outside the page.
+   ============================================================ */
+
+.doc-viewer-overlay {
+  position: fixed; inset: 0; background: rgba(30,34,53,0.55); z-index: 1000;
+  --doc-ui: 36px; --doc-inset: 14px;
+}
+.doc-viewer-overlay[hidden] { display: none; }
+.doc-stage {
+  position: absolute; inset: 0; overflow: auto; display: flex;
+  align-items: center; justify-content: center; -webkit-overflow-scrolling: touch;
+}
+.doc-sheet {
+  position: relative; flex-shrink: 0; margin: auto; overflow: hidden;
+  background: #F6F4EE; color: #2B2A27; box-shadow: 0 10px 34px rgba(10,12,20,0.34);
+  padding: 3.4em 3.2em; line-height: 1.5;
+}
+
+/* Page content — every size is in em so the page scales as one piece. */
+.ds-corner { position: absolute; top: 3.4em; right: 3.2em; font-size: .78em; letter-spacing: .09em; color: #918E85; }
+.ds-brand { font-size: 1em; font-weight: 600; letter-spacing: .22em; }
+.ds-sub { font-size: .9em; color: #7E7B73; margin-top: .3em; }
+.ds-title { font-size: 1.5em; font-weight: 600; margin: 1.1em 0 .9em; }
+.ds-h2 { font-size: 1em; font-weight: 600; margin: 2em 0 .7em; }
+.ds-kv { display: flex; gap: 1em; padding: .6em 0; border-bottom: 1px solid #E4E1D7; font-size: .95em; }
+.ds-kv .k { flex: 0 0 46%; font-weight: 600; }
+.ds-kv .v { flex: 1; min-width: 0; }
+.ds-table { width: 100%; border-collapse: collapse; font-size: .95em; }
+.ds-table th { text-align: left; font-weight: 600; padding: .5em 0; border-bottom: 1px solid #DCD8CC; }
+.ds-table td { padding: .58em 0; border-bottom: 1px solid #E9E6DC; }
+.ds-table .c-date { width: 16%; }
+.ds-table .c-desc { width: 52%; }
+.ds-table .c-amt { width: 32%; font-weight: 600; }
+.ds-note { font-size: .95em; color: #4A4843; margin-top: .9em; }
+.ds-sign { display: flex; gap: 2.4em; margin-top: 2.6em; }
+.ds-sign div { flex: 1; border-top: 1px solid #C9C5B8; padding-top: .5em; font-size: .82em; color: #7E7B73; }
+.ds-foot { position: absolute; left: 3.2em; right: 3.2em; bottom: 2.4em; font-size: .8em; color: #918E85; }
+
+/* Floating controls */
+.doc-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 6;
+  width: var(--doc-ui); height: var(--doc-ui); border: none; border-radius: 50%;
+  background: rgba(24,27,40,0.42); color: rgba(255,255,255,0.92);
+  display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+}
+.doc-arrow:hover { background: rgba(24,27,40,0.66); }
+.doc-arrow:disabled { opacity: .22; cursor: default; }
+.doc-arrow svg { width: 52%; height: 52%; }
+.doc-arrow.prev { left: var(--doc-inset); }
+.doc-arrow.next { right: var(--doc-inset); }
+.doc-count {
+  position: absolute; left: calc(var(--doc-ui) * 0.7); bottom: calc(var(--doc-ui) * 0.5); z-index: 6;
+  font-size: calc(var(--doc-ui) * 0.42); color: rgba(255,255,255,0.82); letter-spacing: .5px;
+}
+.doc-count .sep { opacity: .5; margin: 0 .3em; }
+.doc-zoom {
+  position: absolute; right: calc(var(--doc-ui) * 0.5); bottom: calc(var(--doc-ui) * 0.32);
+  z-index: 6; display: flex; gap: calc(var(--doc-ui) * 0.3);
+}
+.doc-zoom button {
+  width: var(--doc-ui); height: var(--doc-ui); border: none; background: none; padding: 0;
+  color: rgba(255,255,255,0.82); font-size: calc(var(--doc-ui) * 0.62); line-height: 1; cursor: pointer;
+}
+.doc-zoom button:hover { color: #fff; }
+.doc-zoom button:disabled { opacity: .28; cursor: default; }
