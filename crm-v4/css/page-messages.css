@@ -1,0 +1,87 @@
+/* ============================================================
+   page-messages.css — Messages page only.
+   Conversation list · thread · composer · contact context.
+   ============================================================ */
+
+.messages-page { flex: 1; display: flex; min-width: 0; overflow: hidden; }
+.conv-panel   { flex: 0 0 400px; width: 400px; }
+.thread-panel { flex: 1; min-width: 320px; background: var(--bg-surface); }
+.context-panel{ flex: 0 0 380px; width: 380px; }
+
+/* ── PROVIDER BANNER ── */
+.provider-banner {
+  flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px; background: var(--accent-red-light);
+  border-bottom: 1px solid var(--border); color: var(--accent-red); font-size: 11.5px;
+}
+.provider-banner svg { width: 13px; height: 13px; }
+.provider-banner a { color: var(--accent-red); font-weight: 500; margin-left: auto; }
+
+/* ── CONVERSATION LIST ── */
+
+.conv-scroll { flex: 1; overflow-y: auto; }
+.conv-row {
+  display: flex; gap: 10px; padding: 11px 14px; cursor: pointer;
+  border-bottom: 1px solid var(--border); position: relative;
+}
+.conv-row:hover { background: var(--bg-row-hover); }
+.conv-row.selected { background: var(--bg-row-sel); }
+.conv-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+.conv-main { flex: 1; min-width: 0; }
+.conv-top { display: flex; align-items: baseline; gap: 8px; }
+.conv-company { font-size: 12.5px; font-weight: 500; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.conv-time { margin-left: auto; font-size: 10.5px; color: var(--text-muted); white-space: nowrap; }
+.conv-contact { font-size: 11px; color: var(--text-muted); }
+.conv-preview { font-size: 11.5px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+.conv-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 10px; color: var(--text-muted); }
+.conv-meta .ch { display: inline-flex; align-items: center; gap: 3px; }
+.conv-meta .ch svg { width: 10px; height: 10px; }
+.conv-meta .ch.wa { color: var(--accent-teal); }
+.conv-unread { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; align-self: center; }
+.conv-row.unread .conv-company { font-weight: 600; }
+.conv-row.unread .conv-preview { color: var(--text-primary); }
+.conv-optout { color: var(--accent-red); }
+.conv-empty { padding: 30px 16px; text-align: center; color: var(--text-muted); font-size: 12px; }
+
+/* ── THREAD ── */
+.thread-head-id { min-width: 0; }
+.thread-head-id .th-name { font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+.thread-head-id .th-sub { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+.thread-scroll { flex: 1; overflow-y: auto; min-height: 0; }
+.thread-inner { display: flex; flex-direction: column; padding: 14px 18px; gap: 6px; }
+
+/* ── COMPOSER ── */
+.msg-composer { flex-shrink: 0; border-top: 1px solid var(--border); padding: 10px 14px 12px; background: var(--bg-surface); }
+.mc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.mc-row label { font-size: 10.5px; color: var(--text-muted); flex-shrink: 0; }
+.mc-row select { padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 11.5px; background: var(--bg-surface); color: var(--text-primary); outline: none; cursor: pointer; }
+.mc-row select:focus { border-color: var(--accent-blue); }
+.mc-text {
+  width: 100%; min-height: 62px; padding: 9px 11px; border: 1px solid var(--border);
+  border-radius: 9px; font-size: 12px; outline: none; resize: vertical; line-height: 1.5;
+  font-family: inherit; color: var(--text-primary);
+}
+.mc-text:focus { border-color: var(--accent-blue); }
+.mc-tools { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+.mc-tools .spacer { margin-left: auto; }
+.mc-count { font-size: 10.5px; color: var(--text-muted); margin-right: 6px; }
+.mc-attachments { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.mc-blocked { padding: 12px 14px; font-size: 11.5px; color: var(--accent-red); background: var(--accent-red-light); border-top: 1px solid var(--border); }
+
+
+/* ── CONTACT CONTEXT ── */
+.ctx-scroll { flex: 1; overflow-y: auto; padding: 14px 18px 24px; }
+.ctx-identity { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+.ctx-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+.ctx-company { font-size: 14px; font-weight: 600; }
+.ctx-owner { font-size: 11.5px; color: var(--text-muted); }
+.ctx-status { font-size: 10.5px; font-weight: 500; margin-top: 3px; letter-spacing: .2px; }
+.ctx-section { margin-bottom: 16px; }
+.ctx-title { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: .3px; margin-bottom: 7px; display: flex; align-items: center; }
+.ctx-title a { margin-left: auto; font-size: 11px; font-weight: 500; }
+.ctx-doc { display: flex; align-items: center; gap: 7px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.ctx-doc:last-child { border-bottom: none; }
+.ctx-doc button { border: none; background: none; padding: 0; cursor: pointer; color: var(--accent-blue); display: flex; }
+.ctx-doc button svg { width: 13px; height: 13px; }
+.ctx-doc .cd-name { color: var(--accent-blue); cursor: pointer; }
+.ctx-doc .cd-name:hover { text-decoration: underline; }
