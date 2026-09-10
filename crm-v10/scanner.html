@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=6, user-scalable=yes, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CRM">
+<title>CRM — Scanner</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233B6FD4'/%3E%3Cpath d='M32 14 48 22.5v19L32 50 16 41.5v-19z' fill='none' stroke='white' stroke-width='3.4'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233B6FD4'/%3E%3Cpath d='M32 14 48 22.5v19L32 50 16 41.5v-19z' fill='none' stroke='white' stroke-width='3.4'/%3E%3C/svg%3E">
+<link rel="manifest" id="manifestLink">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/page-scanner.css">
+<link rel="stylesheet" href="css/viewer.css">
+</head>
+<body data-page="scanner">
+<div id="app">
+
+  <header class="topbar">
+    <a class="topbar-logo" href="index.html" title="CRM home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/></svg>
+      CRM
+    </a>
+    <span class="topbar-page" id="pageName"></span>
+    <div class="topbar-search">
+      <span class="search-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+      <input type="text" placeholder="Search leads, companies, contacts…" id="globalSearch">
+    </div>
+    <nav class="topbar-tabs" id="topbarTabs"></nav>
+    <div class="topbar-right">
+      <button class="topbar-btn" id="refreshBtn" title="Refresh">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      </button>
+      <div class="topbar-icon-wrap">
+        <button class="topbar-btn" id="notifBtn" title="Notifications">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div class="dropdown-panel" id="notifPanel" hidden>
+          <div class="dropdown-head">Notifications<a class="dh-action" id="notifMarkRead">Mark all read</a></div>
+          <div class="notif-list" id="notifList"></div>
+        </div>
+      </div>
+      <div class="topbar-icon-wrap">
+        <button class="topbar-avatar-btn" id="userMenuBtn" title="Account">MW</button>
+        <div class="dropdown-panel user-menu" id="userMenuPanel" hidden>
+          <div class="user-menu-profile">
+            <div class="av">MW</div>
+            <div><div class="name">Marcus Webb</div><div class="role">Senior Rep</div></div>
+          </div>
+          <div class="um-section">
+            <div class="um-label">NAVIGATION DISPLAY</div>
+            <div class="segmented" id="navModeSeg">
+              <button data-mode="topbar">Top Tabs</button>
+              <button data-mode="icons">Icon Rail</button>
+              <button data-mode="full">Full Sidebar</button>
+            </div>
+          </div>
+          <div class="um-section">
+            <div class="um-label">SCREEN SCALE (ULTRA-WIDE)</div>
+            <div class="segmented" id="scaleSeg">
+              <button data-scale="standard">Standard</button>
+              <button data-scale="wide">Wide</button>
+              <button data-scale="ultrawide">Ultra-Wide</button>
+            </div>
+          </div>
+          <div class="um-section">
+            <div class="um-label">FONT / ICON SIZE</div>
+            <div class="stepper">
+              <button id="fontDec">−</button>
+              <span class="val" id="fontVal">15.0px</span>
+              <button id="fontInc">+</button>
+            </div>
+          </div>
+          <div class="um-section" style="margin-bottom:0">
+            <div class="um-row" id="umSettings"><span>Settings</span></div>
+            <div class="um-row" id="umDevices"><span>Devices and connections</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body-area">
+    <nav class="sidebar" id="sidebar" data-mode="icons" data-hidden="true">
+      <div id="sidebarNavItems"></div>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar">MW</div>
+          <div>
+            <div class="sidebar-user-name">Marcus Webb</div>
+            <div class="sidebar-user-role">Senior Rep</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="page-container">
+      <div class="scanner-page" id="scannerPage">
+
+        <div class="panel queue-panel" id="queuePanel">
+          <div class="panel-header">
+            <span class="ph-title-txt">Scanner</span>
+            <span class="ph-count" id="queueCount"></span>
+            <div class="panel-header-actions">
+              <button class="icon-btn" id="scanSettingsBtn" title="Scan settings"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></button>
+              <button class="icon-btn" id="queueFilterBtn" title="Filter"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg></button>
+              <button class="icon-btn" id="queueSortBtn" title="Sort"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"/></svg></button>
+            </div>
+          </div>
+
+          <div class="engine-banner">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            No OCR/extraction engine is connected — this queue shows upload and review history only.
+          </div>
+
+          <div class="dropzone" id="dropzone" tabindex="0">
+            <div class="dropzone-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <div class="dropzone-text"><b>Drop a file or click to upload</b><div class="sub">PDF, PNG or JPG · associate with a lead after upload</div></div>
+          </div>
+          <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg" hidden multiple>
+
+          <div class="panel-search">
+            <span class="ci"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+            <input type="text" id="queueSearchInput" placeholder="Search company, lead, file or statement month…">
+          </div>
+          <div class="filter-bar" id="queueFilterBar" hidden></div>
+          <div class="queue-scroll" id="queueScroll"></div>
+        </div>
+
+        <div class="resize-handle static"></div>
+
+        <div class="panel scan-detail-panel" id="scanDetailPanel">
+          <div class="panel-header" id="scanDetailHead"><span class="ph-title-txt">Document</span></div>
+          <div id="scanDetailBody" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Document viewer: outside #app so the page is never scaled with the workspace -->
+<div class="doc-viewer-overlay" id="docViewerOverlay" hidden>
+  <div class="doc-stage" id="docStage"><div class="doc-sheet" id="docSheet"></div></div>
+  <button class="doc-arrow prev" id="docPrev" title="Previous page"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <button class="doc-arrow next" id="docNext" title="Next page"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+  <div class="doc-count" id="docCount">1<span class="sep">/</span>1</div>
+  <div class="doc-zoom">
+    <button id="docZoomIn" title="Zoom in">+</button>
+    <button id="docZoomOut" title="Zoom out">−</button>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/data-scanner.js"></script>
+<script src="js/shell.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/page-scanner.js"></script>
+</body>
+</html>
