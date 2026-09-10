@@ -1,0 +1,149 @@
+/* ============================================================
+   layout.css — app shell, topbar, sidebar, page frame, panels.
+   ============================================================ */
+
+/* The whole desktop view is scaled to fit narrow screens with
+   transform: scale() rather than CSS zoom, because some in-app
+   web views ignore zoom and reflow the layout instead. */
+#app {
+  display: flex;
+  flex-direction: column;
+  transform-origin: top left;
+}
+
+/* Running standalone from the home screen (no browser chrome, e.g. after
+   "Add to Home Screen"): pad #app for the notch / home-indicator so the app
+   fits exactly edge to edge instead of content sitting under the safe area.
+   Padding lands inside the JS-computed width/height (box-sizing: border-box
+   is set globally in base.css), so it never causes overflow or clipping. */
+@media (display-mode: standalone) {
+  #app {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: var(--header-h); background: var(--bg-surface);
+  border-bottom: 1px solid var(--border); display: flex;
+  align-items: center; padding: 0 16px; gap: 14px;
+  position: relative; z-index: 300; flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.topbar-logo {
+  font-size: var(--nav-icon-size); font-weight: 700; letter-spacing: -.3px;
+  color: var(--accent-blue); display: flex; align-items: center; gap: 7px;
+  margin-right: 4px; white-space: nowrap;
+}
+.topbar-logo svg { opacity: .9; width: 18px; height: 18px; }
+.topbar-logo:hover { text-decoration: none; }
+
+.topbar-search { position: relative; width: 300px; flex-shrink: 1; min-width: 120px; }
+.topbar-search input {
+  width: 100%; padding: 6px 12px 6px 32px; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--bg-panel);
+  font-size: 12.5px; color: var(--text-primary); outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.topbar-search input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px var(--accent-blue-light); }
+.topbar-search .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+.topbar-search .search-icon svg { width: 13px; height: 13px; }
+
+.topbar-tabs { display: flex; align-items: center; gap: 2px; margin-left: 4px; }
+.topbar-tab {
+  display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 7px;
+  border: none; background: none; color: var(--text-secondary); font-size: 12.5px;
+  font-weight: 500; cursor: pointer; transition: background .12s, color .12s; white-space: nowrap;
+}
+.topbar-tab svg { width: 14px; height: 14px; }
+.topbar-tab:hover { background: var(--bg-row-hover); color: var(--text-primary); text-decoration: none; }
+.topbar-tab.active { background: var(--accent-blue-light); color: var(--accent-blue); }
+
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.topbar-btn {
+  background: none; border: none; cursor: pointer; color: var(--text-secondary);
+  padding: 6px; border-radius: 6px; display: flex; align-items: center;
+  transition: background .12s, color .12s; position: relative;
+}
+.topbar-btn svg { width: var(--nav-icon-size); height: var(--nav-icon-size); }
+.topbar-btn:hover { background: var(--bg-row-hover); color: var(--text-primary); }
+.topbar-btn.spinning svg { animation: spin .6s linear; }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+.notif-dot {
+  position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent-red); border: 1.5px solid var(--bg-surface);
+}
+.topbar-icon-wrap { position: relative; display: flex; align-items: center; }
+.topbar-avatar-btn {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--accent-blue);
+  color: #fff; font-size: 11px; font-weight: 600; display: flex; align-items: center;
+  justify-content: center; cursor: pointer; letter-spacing: .3px; border: none;
+}
+
+/* ── SIDEBAR ── */
+.body-area { display: flex; flex: 1; min-height: 0; }
+.sidebar {
+  background: var(--bg-sidebar); flex-shrink: 0; display: flex; flex-direction: column;
+  padding: 12px 0; overflow-y: auto; transition: width .15s ease;
+}
+.sidebar[data-hidden="true"] { display: none; }
+.sidebar[data-mode="icons"] { width: 56px; }
+.sidebar[data-mode="full"] { width: 200px; }
+.sidebar .nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 16px; margin: 1px 8px;
+  border-radius: 7px; color: var(--text-sidebar); font-size: 12.5px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; overflow: hidden;
+}
+.sidebar[data-mode="icons"] .nav-item { justify-content: center; padding: 10px 0; margin: 1px 8px; }
+.sidebar .nav-item svg { width: var(--nav-icon-size); height: var(--nav-icon-size); flex-shrink: 0; }
+.sidebar .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--text-sidebar-active); text-decoration: none; }
+.sidebar .nav-item.active { background: rgba(59,111,212,0.22); color: var(--text-sidebar-active); }
+.sidebar[data-mode="icons"] .nav-item-label { display: none; }
+.sidebar-footer { margin-top: auto; padding: 10px 12px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+.sidebar-user { display: flex; align-items: center; gap: 8px; padding: 6px; }
+.sidebar-user-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-blue); color: #fff; font-size: 10.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sidebar[data-mode="icons"] .sidebar-user > div:not(.sidebar-user-avatar) { display: none; }
+.sidebar-user-name { font-size: 11.5px; color: var(--text-sidebar-active); font-weight: 500; white-space: nowrap; }
+.sidebar-user-role { font-size: 10px; color: var(--text-sidebar); white-space: nowrap; }
+
+/* ── PAGE FRAME ── */
+.page-container { flex: 1; min-width: 0; display: flex; overflow: hidden; }
+.placeholder-page { flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text-muted); text-align: center; padding: 24px; }
+.placeholder-page svg { width: 34px; height: 34px; opacity: .4; }
+.placeholder-page .ph-title { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+.placeholder-page .ph-sub { font-size: 12px; max-width: 44ch; }
+
+.panel { background: var(--bg-surface); display: flex; flex-direction: column; min-width: 220px; overflow: hidden; }
+.panel-header {
+  height: var(--panel-header-h); flex-shrink: 0; display: flex; align-items: center; padding: 0 16px;
+  border-bottom: 1px solid var(--border); gap: 10px;
+}
+.panel-header .ph-title-txt { font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+.ph-lead-id { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.ph-lead-company { font-size: 13.5px; font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ph-lead-owner { font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
+.panel-header .ph-count { font-size: 11.5px; color: var(--text-muted); }
+.panel-header-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+
+/* The divider is a single thin line identical to every other line in the app;
+   the handle itself is panel-coloured so it never reads as a heavy band. */
+.resize-handle { width: 5px; flex-shrink: 0; cursor: col-resize; background: var(--bg-surface); position: relative; z-index: 20; }
+.resize-handle:hover, .resize-handle.active { background: var(--accent-blue-light); }
+.resize-handle.static { cursor: default; }
+.resize-handle.static:hover { background: transparent; }
+.resize-handle::after { content: ''; position: absolute; left: 2px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+
+@media (max-width: 900px) {
+  .topbar-search { width: 160px; }
+  .topbar-tabs .topbar-tab-label { display: none; }
+}
+
+/* Page name — the shared top bar states which page you are on. */
+.topbar-page {
+  font-size: 12.5px; font-weight: 500; color: var(--text-secondary);
+  letter-spacing: .4px; text-transform: uppercase;
+  padding-left: 12px; margin-left: 2px; border-left: 1px solid var(--border);
+  white-space: nowrap;
+}

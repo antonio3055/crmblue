@@ -1,0 +1,168 @@
+/* ============================================================
+   page-leads.css — Leads page only: lead list, selected lead
+   workspace, communications panel and the docked dialer.
+   ============================================================ */
+
+.leads-page { flex: 1; display: flex; min-width: 0; overflow: hidden; }
+.lead-list-panel { flex-shrink: 0; }
+.selected-lead-panel { flex: 1; min-width: 260px; }
+.comms-panel { flex-shrink: 0; }
+
+/* ── LEAD LIST ── */
+.lead-list-scroll { flex: 1; overflow-y: auto; }
+.lead-row {
+  display: flex; align-items: center; gap: 10px; padding: 15px 14px 9px 8px; cursor: pointer;
+  border-bottom: 1px solid var(--border); position: relative;
+}
+.lead-row:hover { background: var(--bg-row-hover); }
+.lead-row.selected { background: var(--bg-row-sel); }
+.lead-row-num { position: absolute; top: 4px; left: 5px; font-size: 8px; color: var(--text-muted); opacity: .5; }
+.lead-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; line-height: 1; letter-spacing: .2px; flex-shrink: 0; }
+.lead-row-main { flex: 1; min-width: 0; }
+.lead-row-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.lead-row-bottom { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 1px; }
+.lead-row-company { font-size: 12.5px; font-weight: 500; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lead-row-name { font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.lead-row-value { font-size: 12.5px; font-weight: 600; color: var(--text-charcoal); flex-shrink: 0; }
+.lead-row-time { font-size: 10.5px; color: var(--text-muted); flex-shrink: 0; }
+.lead-row-star { position: absolute; top: 4px; right: 6px; color: var(--accent-amber); }
+.lead-row-star svg { width: 10px; height: 10px; }
+.lead-list-empty { padding: 30px 16px; text-align: center; color: var(--text-muted); font-size: 12px; }
+
+/* ── SELECTED LEAD PANEL ── */
+.sl-scroll { flex: 1; overflow-y: auto; padding: 14px 20px 26px; }
+.sl-identity { display: flex; align-items: center; gap: 11px; margin-bottom: 14px; }
+.sl-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12.5px; font-weight: 600; flex-shrink: 0; }
+
+
+.sl-section { margin-bottom: 18px; }
+.sl-section-title { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: .3px; margin-bottom: 8px; display: flex; align-items: center; }
+.sl-section-title a { font-size: 11px; font-weight: 500; margin-left: auto; }
+
+/* Bank statements — month opens the viewer, small PDF icon beside it. */
+.stmt-layout { display: flex; align-items: stretch; gap: 16px; }
+.stmt-list { flex: 1; min-width: 0; }
+.stmt-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.stmt-row:last-child { border-bottom: none; }
+.stmt-mtd-aside {
+  flex-shrink: 0; width: 128px; display: flex; flex-direction: column; justify-content: space-between;
+  padding-left: 16px; border-left: 1px solid var(--border);
+}
+.stmt-month { font-size: 12px; font-weight: 500; color: var(--accent-blue); cursor: pointer; }
+.stmt-month:hover { text-decoration: underline; }
+.stmt-pdf { border: none; background: none; padding: 0; cursor: pointer; color: var(--accent-blue); display: flex; align-items: center; }
+.stmt-pdf svg { width: 13px; height: 13px; }
+.stmt-pdf:hover { opacity: .7; }
+.stmt-figs { display: flex; gap: 18px; }
+.stmt-fig { text-align: left; }
+.stmt-fig .sf-label { font-size: 9.5px; color: var(--text-muted); }
+.stmt-fig .sf-val { font-size: 12px; font-weight: 500; color: var(--text-charcoal); }
+.stmt-asof { font-size: 10.5px; color: var(--text-muted); margin-top: 7px; }
+.inline-file { border: none; background: none; padding: 0 0 0 5px; cursor: pointer; color: var(--accent-blue); vertical-align: -2px; }
+.inline-file svg { width: 12px; height: 12px; }
+.inline-file:hover { opacity: .7; }
+
+.pitch-box { background: var(--accent-blue-light); border-radius: 9px; padding: 12px 14px; font-size: 12px; color: var(--text-primary); line-height: 1.6; position: relative; }
+.pitch-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.pitch-actions button { font-size: 10.5px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border-panel); background: var(--bg-surface); color: var(--text-secondary); cursor: pointer; }
+.pitch-actions button:hover { color: var(--accent-blue); border-color: var(--accent-blue); }
+
+.notes-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 8px 10px; border-radius: 7px; background: var(--bg-panel); border: 1px solid var(--border); }
+.notes-toggle svg { width: 12px; height: 12px; color: var(--text-muted); transition: transform .12s; }
+.notes-toggle.open svg.chev { transform: rotate(90deg); }
+.notes-toggle .nt-label { font-size: 11.5px; color: var(--text-secondary); }
+.notes-full { display: none; margin-top: 8px; }
+.notes-full.show { display: block; }
+.note-compose { display: flex; gap: 6px; margin-top: 8px; }
+.note-compose input { flex: 1; padding: 7px 10px; border-radius: 7px; border: 1px solid var(--border); font-size: 11.5px; outline: none; }
+.note-compose input:focus { border-color: var(--accent-blue); }
+.note-compose button { padding: 0 12px; border-radius: 7px; border: none; background: var(--accent-blue); color: #fff; font-size: 11.5px; cursor: pointer; }
+
+/* ── COMMUNICATIONS PANEL ── */
+.comms-tabs { display: flex; border-bottom: 1px solid var(--border); flex-shrink: 0; padding: 0 10px; }
+.comms-tab { padding: 9px 12px; font-size: 11.5px; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
+.comms-tab:hover { color: var(--text-primary); }
+.comms-tab.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+.comms-body { flex: 1; overflow-y: auto; min-height: 0; }
+.comms-empty { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 12px; }
+
+.feed-row { display: flex; gap: 9px; padding: 9px 14px; border-bottom: 1px solid var(--border); }
+.feed-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.feed-icon svg { width: 15px; height: 15px; }
+.feed-icon.sms { color: var(--accent-blue); }
+.feed-icon.wa { color: var(--accent-teal); }
+.feed-icon.call-in { color: var(--accent-teal); }
+.feed-icon.call-out { color: var(--accent-blue); }
+.feed-icon.call-miss { color: var(--accent-red); }
+.feed-icon.email { color: var(--accent-amber); }
+.feed-main { flex: 1; min-width: 0; }
+.feed-top { display: flex; justify-content: space-between; gap: 8px; }
+.feed-who { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+.feed-time { font-size: 10.5px; color: var(--text-muted); white-space: nowrap; }
+.feed-preview { font-size: 11.5px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
+
+.msg-thread { display: flex; flex-direction: column; padding: 12px 14px; gap: 6px; }
+
+.composer { display: flex; align-items: center; gap: 6px; padding: 10px 12px; border-top: 1px solid var(--border); flex-shrink: 0; }
+.composer input { flex: 1; padding: 8px 12px; border-radius: 20px; border: 1px solid var(--border); font-size: 12px; outline: none; }
+.composer input:focus { border-color: var(--accent-blue); }
+.composer button { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--accent-blue); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.composer button svg { width: 14px; height: 14px; }
+.composer .cbtn { background: var(--bg-panel); color: var(--text-secondary); }
+
+.call-log-row { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--border); }
+.call-dir-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.call-dir-icon svg { width: 12px; height: 12px; }
+.call-info { flex: 1; min-width: 0; }
+.call-number { font-size: 12px; color: var(--text-primary); }
+.call-sub { font-size: 10.5px; color: var(--text-muted); }
+.call-dur { font-size: 11px; color: var(--text-secondary); }
+
+.email-row { padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: default; }
+.email-row-top { display: flex; justify-content: space-between; gap: 8px; }
+.email-subject { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+.email-time { font-size: 10.5px; color: var(--text-muted); white-space: nowrap; }
+.email-preview { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.email-track { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+.email-track svg { width: 10px; height: 10px; }
+.email-track.opened { color: var(--accent-teal); }
+.email-compose { padding: 12px 14px; border-top: 1px solid var(--border); }
+.email-compose .ec-label { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.email-compose .ec-fields { display: flex; flex-direction: column; gap: 6px; }
+.email-compose .ec-tools { display: flex; gap: 4px; align-items: center; }
+
+/* ── DIALER ── */
+.dialer-bar { flex-shrink: 0; background: var(--bg-dialer); color: var(--text-dialer); display: flex; align-items: center; gap: 10px; padding: 9px 14px; position: relative; }
+.dialer-id { min-width: 0; flex: 1; }
+.dialer-name { font-size: 12px; font-weight: 500; }
+.dialer-number { font-size: 11px; color: #A8B0CC; }
+.dialer-status { font-size: 10px; color: #8891B0; }
+.dialer-status.live { color: var(--accent-active); }
+.dialer-timer { font-size: 12px; color: var(--text-dialer); min-width: 40px; text-align: center; }
+.dialer-btn {
+  width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--bg-dialer-btn);
+  color: var(--text-dialer); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+}
+.dialer-btn svg { width: 13px; height: 13px; }
+.dialer-btn.on { background: var(--accent-blue); color: #fff; }
+.dialer-btn.call-go { background: var(--accent-active); color: #14231a; }
+.dialer-btn.call-end { background: var(--accent-red); color: #fff; }
+
+/* The keypad floats above the bar so opening it never pushes, resizes or
+   reflows the panel content behind it. */
+.keypad-overlay {
+  position: absolute; bottom: 100%; right: 14px; margin-bottom: 8px; background: var(--bg-dialer);
+  border-radius: 10px; padding: 12px; box-shadow: var(--shadow-lg); z-index: 400; width: 162px;
+}
+.keypad-overlay[hidden] { display: none; }
+.keypad-readout { font-size: 13px; color: var(--text-dialer); background: var(--bg-dialer-btn); border-radius: 7px; padding: 7px 9px; margin-bottom: 8px; min-height: 30px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: rtl; }
+.keypad-grid { display: grid; grid-template-columns: repeat(3, 42px); gap: 6px; }
+.keypad-key { height: 34px; border-radius: 7px; border: none; background: var(--bg-dialer-btn); color: var(--text-dialer); font-size: 13px; cursor: pointer; }
+.keypad-key:hover { background: var(--accent-blue); color: #fff; }
+.keypad-foot { display: flex; gap: 6px; margin-top: 8px; }
+.keypad-foot button { flex: 1; height: 26px; border-radius: 7px; border: none; background: var(--bg-dialer-btn); color: var(--text-dialer); font-size: 10.5px; cursor: pointer; }
+.keypad-foot button:hover { background: var(--accent-blue); color: #fff; }
+
+/* Tracked-email check on a lead row — same mark the Email page uses. */
+.lead-row-trk { position: absolute; top: 3px; right: 22px; }
+.lead-row-trk .trk svg { width: 12px; height: 12px; }
