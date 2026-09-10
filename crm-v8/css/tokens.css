@@ -1,0 +1,43 @@
+/* ============================================================
+   tokens.css — every colour, size and shadow in one place.
+   Values carried over unchanged from build crm-new-v05.html.
+   ============================================================ */
+
+:root {
+  --bg-page:       #F2F4F8;
+  --bg-surface:    #FFFFFF;
+  --bg-panel:      #F7F8FC;
+  --bg-sidebar:    #1E2235;
+  --bg-dialer:     #181B2A;
+  --bg-dialer-btn: #252940;
+  --bg-row-hover:  #EFF2FB;
+  --bg-row-sel:    #E6ECFA;
+
+  --text-primary:  #1E2235;
+  --text-charcoal: #3C4152;
+  --text-secondary:#5A6078;
+  --text-muted:    #8C93AB;
+  --text-sidebar:  #C8CCDC;
+  --text-sidebar-active: #FFFFFF;
+  --text-dialer:   #E8EAF2;
+
+  --accent-blue:   #3B6FD4;
+  --accent-blue-light: #EAF0FF;
+  --accent-teal:   #1A8F7A;
+  --accent-teal-light: #E5F6F3;
+  --accent-amber:  #C97B2A;
+  --accent-amber-light: #FDF3E5;
+  --accent-red:    #C43B3B;
+  --accent-red-light: #FDEAEA;
+  --accent-purple: #6B4EBC;
+  --accent-active: #25C47A;
+
+  --border:        #E2E6F0;
+  --border-panel:  #D8DDE8;
+  --shadow-sm:     0 1px 3px rgba(30,34,53,0.08);
+  --shadow-lg:     0 8px 24px rgba(30,34,53,0.13);
+
+  --header-h:      52px;
+  --panel-header-h:62px;
+  --nav-icon-size: 15px;
+}
